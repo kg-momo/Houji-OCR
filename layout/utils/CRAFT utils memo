@@ -1,0 +1,56 @@
+CRAFT/utils について
+
+CRAFTの出力に関して後処理を施し、text-recognitionに使える
+データ形式にするためのプログラム群。
+
+＜必要なファイル＞
+INPUT DIR/
+file01.jpg, file02.jpg...
+一つ以上のjpg邦字新聞dir
+
+CRAFT/
+craftによる出力
+
+＜OUTPUT＞
+./output/
+ [dirname]/
+   imgxml/
+     img/
+      file01.jpg, file02.jpg,...
+      (resize済みimg)
+     xml/
+      file01.xml, file02.xml,...
+   
+
+1.1 get_lineArea.py
+CRAFTの出力である2つのマップから、行領域を抽出する
+->出力
+./data/
+*-np_boxes.npy
+*-np_polys.npy
+*-np_mapper.npy
+*-np_labels.npy
+
+1.2 get_seqArea.py
+CRAFTの出力であるaffマップから、セクション領域を抽出する
+->出力
+./data_seg/
+*-np_boxes.npy
+*-np_polys.npy
+*-np_mapper.npy
+*-np_labels.npy
+
+2. make_imgxml.py
+text-recognitionに対応したxmlファイルを作成するためのプログラム
+ルビ除去もここで行っている
+->出力
+file/
+img/*.jpg
+-xml/*.xml
+となるファイル群を出力する
+
+▲ open_img.py
+行領域やセクション領域抽出結果可視化のためのプログラム
+resize関数がなぜかここにしかない
+
+▲trim_to_xml.pyは用途不明

@@ -1,0 +1,9 @@
+パラメータややこしいのでメモ
+
+
+・affinity scoreのみをもちいてやるとき（region scoreは一切使わない）
+d_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (horizontal_size, vertical_size))
+e_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (9, 12))
+
+affmap = getDilate(_affmap, output_dir, name+"-aff", 55, 200)
+

@@ -1,0 +1,23 @@
+craft_layout の作成
+
+＜INPUT＞
+[dirname]/
+file01.jpg, file02.jpg...
+一つ以上のjpg邦字新聞ファイル
+
+＜プログラム群＞
+・img-preprocess
+画像の前処理。二値化と直線除去。
+
+・CRAFT
+craftの実行。2種類のスコアマップなどを出力。
+
+・craft-utils
+craftの出力から行領域とセクション領域を推定。
+行領域推定情報からimgxmlファイルを出力。
+セクション領域推定情報からxmlファイルを出力。
+
+＜OUTPUT＞
+[dirname]/
+craft/
+imgxml/

@@ -1,0 +1,38 @@
+
+# Put the image file sample.jpeg in the same directory as main.py
+# https://gist.github.com/nikaera/c1049708ff548b06cab0ae377adc4ac7をカスタマイズ
+
+from PIL import Image, ImageDraw, ImageFont
+
+def tate_print(img_pass, datas):
+    font_name = "/usr/share/fonts/opentype/ipafont-mincho/ipam.ttf"
+    font_size = 18 
+    font = ImageFont.truetype(font_name, font_size)
+    im = Image.open(img_pass)
+    w, h = im.size
+    d = ImageDraw.Draw(im)
+    # split_number needs to be smaller or larger depending on the font and its size.
+    split_number = 11
+    
+    # 画像の width を読み込み、画像の右端の座標を取得する
+    # top_right_margin には余白を設定する(描画領域の端が画像の端と被ってしまうため)
+    w, _ = im.size
+    top_right_margin = 13
+    right_edge = w - top_right_margin
+
+    
+    text = "bifdLcFCKXtFJZmPZhzdefjhhYTtuJPAYsR"
+   
+    # split_number で指定した文字数ごとに分割され配列に格納される
+    # ref: https://qiita.com/yasunori/items/551a7c20ef9b81474e2a
+    splits = [text[i: i+split_number] for i in range(0, len(text), split_number)]
+    
+    # テキストの入力領域に端が赤い四角形を描画する
+    d.rectangle((right_edge, top_right_margin, right_edge - font_size * len(splits), font_size * split_number + top_right_margin), fill=(255, 255, 255), outline=(255, 0, 0))
+    
+    # 分割した文章を上記四角形内に左にずらしながら縦書き入力する
+    for index, item in enumerate(splits):
+        d.text((right_edge - (font_size / 2) - font_size * index, top_right_margin), item, fill="black", anchor="mt", font=font, direction="ttb")
+        
+    im.save("test.png")
+

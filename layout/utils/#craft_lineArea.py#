@@ -1,0 +1,77 @@
+######################################
+# CRAFTによる出力ファイルcraft/から、
+#  imgxml/
+#   img/
+#   xml/
+# 構成となるimgxmlファイルを作成する
+######################################
+
+import numpy as np
+import cv2
+from PIL import Image
+import os
+import glob
+
+import get_lineArea as getLine
+import get_seqArea as getSeq
+import make_imgxml as imgxml
+import rubi_hantei.hantei_histgram as hantei
+
+def get_lineArea(name, re, aff):
+    
+    _regionmap = np.array(Image.open(re).convert('L'))
+    _affmap = np.array(Image.open(aff).convert('L'))
+    # [0, 255] -> [0, 1] へ変換
+    regionmap = (_regionmap/255.).astype(np.float32)
+    affmap = (_affmap/255.).astype(np.float32)
+        
+    link = 0.4 #aff
+    low = 0.4 #reg
+    text = 0.8
+        
+    boxes, polys, mapper, labels = getLine.getDetBoxes(regionmap, affmap, text_threshold=text, link_threshold=link, low_text=low, estimate_num_chars=False)
+
+    return boxes, polys, mapper, labels
+
+
+def main():    
+    #実行プログラム
+    
+    INPUT_DIR = "./input/Doho_19400201/"
+    dirname = os.path.basename(os.path.dirname(INPUT_DIR))
+    
+    CRAFT_DIR = INPUT_DIR+"craft/"
+    
+    OUT_DIR = "./output_imgxml/"+dirname+"/"
+    os.makedirs(OUT_DIR+"img/", exist_ok=True)
+    os.makedirs(OUT_DIR+"xml/", exist_ok=True)
+
+    # get imges path
+    list_img = [name for name in glob.glob(INPUT_DIR+"*.jpg")]
+
+
+    # get Region and Affinity score path
+    a_path = [name for name in glob.glob(CRAFT_DIR+"*_aff_mask.jpg")]
+    r_path = [name.replace("_aff", "") for name in a_path]
+    # get imgname split jpg
+    name_list = []
+    for name in r_path:
+        filename, _ = os.path.splitext(os.path.basename(name))
+        filename = filename.replace("_mask", "")
+        filename = filename.replace("res_", "")
+        name_list.append(filename)
+
+    canvas_size = 3000
+        
+    for i, name in enumerate(name_list):
+        boxes, polys, mapper, labels = get_lineArea(name, r_path[i], a_path[i])
+        input_img = glob.glob(INPUT_DIR+"*"+name+"*.jpg")
+        if len(input_img)!=1:
+            print("error: There are multiple files.")
+            exit
+        else:
+            input_img = input_img[0]
+        imgxml.makeImageXML(input_img, canvas_size, OUT_DIR, name, boxes)
+
+if __name__ == "__main__":
+    main()

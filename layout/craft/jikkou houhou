@@ -1,0 +1,10 @@
+CRAFT_iidaにて「sh dockerrun.sh」
+
+ログイン後「cd craft」
+
+テストプログラム実行
+python test_invg.py \
+--trained_model=weights/finetune_3dats_4b_10000epoch.pth \
+--test_folder=./HoujiShinbun_testdata/testdata_momo/[dirname]/ \
+--resultf ./res_momo/[dirname]/ \
+--canvas_size=[size]

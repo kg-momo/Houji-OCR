@@ -1,0 +1,15 @@
+CRAFT/image-preprocess memo
+
+＜INPUT DIR＞
+[dirname]/
+file01.jpg, file02.jpg...
+一つ以上のjpg邦字新聞ファイル
+
+＜OUTPUT DIR＞
+./output/
+ [dirname]/
+   img_pre/
+     file01.jpg, file02.jpg,...
+     二値化と直線消去後のファイル
+   npy/
+     file01.npy, file02.npy,...
