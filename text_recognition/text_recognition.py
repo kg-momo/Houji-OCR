@@ -36,7 +36,7 @@ from xmlparser import XMLRawDataset, SyntheticDataset, XMLRawDatasetWithCli
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def gen_dataset(db_type, db_path, opt, line_index=None, accept_empty=True, keep_remain=False):
-    # 画像しかないデータセットの場合を作るか？
+
     if db_type == 'xmllmdb':
         ds = ConcatDataset([XMLLmdbDataset(root=p, opt=opt) for p in db_path])
         if line_index is not None:
@@ -339,7 +339,7 @@ class TR_WORKER:
     def _frender(self, correct, image, sa1, sb1, *args):
         image_pil = Image.fromarray(tensor2im(image))
         w, h = self._textsize(f'{sb1}')
-        ### 追加した ###
+        ### 追加 ###
         # 予測が〓ともならない(空白)ときにおかしなことになるので
         if w == 0 :
             w = 1
@@ -495,8 +495,7 @@ def draw_escape_colored_text(t, d, p, font):
         p[0] += size[0]
     p[0], p[1] = 0, get_textsize(t)[1]
 
-    
-# クライアント付きで推論するときに便利？
+
 class InferencerWithCLI:
     def __init__(self, conf_dict, character):
         class EmptyOption():
@@ -564,19 +563,7 @@ class InferencerWithCLI:
             xml_line.set('STRING', result_list.pop(0))
 
         return xml_data
-    
-### 付け足した ###
-# おそらく画像データだけ読み込む処理がうまくいってないんで
-# ラベル無しでDataLoaderできるように工夫する必要あり
-# 想定
-# input_dir-> [data01, data02, ... ]
-# datasetにgen_datasetの結果使ってる時点でだめ
 
-# xmlparserするときに本文とかTYPEに関するデータも付与されてる
-# AlignCollateするためにデータの縦横も揃えられてるかもしれない
-# きれいにやろうとすると多分めっちゃ時間かかる
-
-###
 
 if __name__ == '__main__':       
     parser = Inferencer.get_argparser()
