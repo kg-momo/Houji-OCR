@@ -53,7 +53,7 @@ sh dockerrun.sh
 【Windowsの場合】
 ```
 $ocr_dir= Convert-Path .
-docker run -it -v ${ocr_dir}:/code --gpus all --name socr_runner socr-py37
+docker run -it -v ${ocr_dir}:/code --gpus all --name socr_runner momokg/socr-py37
 ```
 Docker起動後は、以下でログインできます。
 ```
@@ -78,4 +78,44 @@ Houji-OCR
 文字認識モジュールは、
 [NDLOCR ver 1.0の文字認識モジュール](https://github.com/ndl-lab/text_recognition/tree/ea196e064a8003a6f8ec3ab1d986e096987c8036)を邦字新聞OCRに利用可能な形に編集したものを利用しています。
 
+### 4. 実行ファイルについて
+本プログラムは、シェルスクリプトを利用して実行しています。  
+「socr-exe.sh」ファイルを編集して実行してください。
 
+#### 入力ファイル: input_name
+入力ファイル（例: test）を作成し、１枚以上の画像ファイル（jpegファイルかpngファイルに対応）を格納したものを「input」ディレクトリに格納してください。  
+「socr-exe.sh」を以下のように編集します。
+```
+input_name = test
+```
+#### 出力ファイル: output_name
+出力ファイル（例: output_test）を設定してください。同様のファイル名がある場、上書きされます。
+「socr-exe.sh」を以下のように編集します。
+```
+output_name = output_test
+```
+#### キャンバスサイズ: op_canvas
+レイアウト解析を行う際のキャンバスサイズを設定します。画像サイズに合わせて設定してください。
+#### ブロックセグメンテーションサイズ: op_segsize
+読み順検出に用いるブロック分割のサイズを設定します。必要なければ編集の必要はありません。デフォルトは40です。
+
+### 5. 邦字新聞OCRの実行
+Dockerコンテナにログインし以下を実行してください。
+```
+sh socr-exe.sh
+```
+
+## 出力について
+邦字新聞OCR実行後、「output」ディレクトリが作成され、以下が出力されます。
+```
+output:
+(例)└── Test: 
+└── craft: レイアウト解析craftの出力
+└── imgxml: レイアウト解析対象画像と結果xmlファイル
+└── text: 文字認識結果の出力
+└── seg: 読み順認識結果の出力
+└── result: 邦字新聞OCRの結果
+└── box: レイアウト解析結果の可視化画像
+└── seg: 読み順解析結果の可視化画像と読み順テキスト出力
+└── text: 文字認識結果の可視化画像
+```
