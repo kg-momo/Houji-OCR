@@ -1,9 +1,10 @@
 # 邦字新聞に対応したOCRシステム
 
 作成済みDockerイメージを利用して、実行が可能です。  
-システムの詳しい内容については、[修士論文](https://github.com/kg-momo/Houji-OCR_thesis/tree/main)を参考にしてください。
+システムの詳しい内容については[修士論文](https://github.com/kg-momo/Houji-OCR_thesis/tree/main)(2024年1月作成)を参考にしてください。
 
 ## 環境構築
+ご利用のGPUに合わせたNVIDIA Driverのダウンロード、またアップデートを行ってください。
 
 ### 1. 動作確認済みの環境
 【Linux】  
@@ -27,11 +28,21 @@ NVIDIA Driver: 535.129.03
 以下のリンクに従ってDockerのインストールを行ってください。  
 https://docs.docker.com/engine/install/
 
-#### Windowsを利用する場合
-【WSL2によるDocker環境構築】
+**【Windowsを利用する場合】**
 
-【Nvidia CUDA Toolkitの確認】
+**WSL2によるDocker環境構築**
 
+Windows Subsystem for Linux(WSL)の利用により、Windowsコンピュータ上でもLinux環境の実行が可能になります。
+
+インストールについては[こちら](https://learn.microsoft.com/ja-jp/windows/wsl/install)を参考してください。
+
+**NVIDIA CUDA Toolkitの確認**
+
+NVIDIA CUDA Toolkitのダウンロードが必要となります。
+
+[CUDA Toolkitダウンロードページ](https://developer.nvidia.com/cuda-11-7-0-download-archive)から、環境に合わせたダウンロードを行ってください。
+
+また、Windowsにおける環境構築方法についてまとめた[資料]()も参考にしてください。
 
 ## 実行
 ### 1. 必要ファイルのダウンロード
