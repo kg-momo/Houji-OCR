@@ -42,7 +42,7 @@ NVIDIA CUDA Toolkitのダウンロードが必要となります。
 
 [CUDA Toolkitダウンロードページ](https://developer.nvidia.com/cuda-11-7-0-download-archive)から、環境に合わせたダウンロードを行ってください。
 
-また、Windowsにおける環境構築方法についてまとめた[資料]()も参考にしてください。
+また、Windowsにおける環境構築方法についてまとめた[資料](https://github.com/kg-momo/Houji-OCR_thesis/blob/main/SetupForWindows.pdf)も参考にしてください。
 
 ## 実行
 ### 1. 必要ファイルのダウンロード
